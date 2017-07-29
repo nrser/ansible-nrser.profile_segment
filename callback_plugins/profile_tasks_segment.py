@@ -26,6 +26,7 @@ __metaclass__ = type
 import collections
 import os
 import time
+import datetime
 
 from ansible.module_utils.six.moves import reduce
 from ansible.plugins.callback import CallbackBase
@@ -138,7 +139,12 @@ class CallbackModule(CallbackBase):
 
         # Print the timings
         for uuid, result in results:
-            msg = u"{0:-<{2}}{1:->9}".format(result['name'] + u' ', u' {0:.02f}s'.format(result['time']), self._display.columns - 9)
+            msg = u"{0:-<{2}}{1:->9}".format(
+                result['name'] + u' ',
+                u' {0}'.format(datetime.timedelta(seconds=result['time'])),
+                self._display.columns - 9
+            )
+            
             if 'path' in result:
                 msg += u"\n{0:-<{1}}".format(result['path'] + u' ', self._display.columns)
             self._display.display(msg)
