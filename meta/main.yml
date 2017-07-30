@@ -1,0 +1,8 @@
+---
+# meta file for nrser.profile_segment
+
+allow_duplicates: no
+
+dependencies: []
+# - role: role-name
+
