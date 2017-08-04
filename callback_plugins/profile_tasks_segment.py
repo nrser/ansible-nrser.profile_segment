@@ -73,7 +73,9 @@ def filled(msg, fchar="*"):
 
 def timestamp(self):
     if self.current is not None:
-        self.stats[self.current]['time'] = time.time() - self.stats[self.current]['time']
+        self.stats[self.current]['time'] = (
+            time.time() - self.stats[self.current]['time']
+        )
 
 
 def tasktime():
@@ -265,8 +267,16 @@ class CallbackModule(CallbackBase):
     def __init__(self):
         self.stats = collections.OrderedDict()
         self.current = None
-        self.sort_order = os.getenv('PROFILE_TASKS_SORT_ORDER', True)
-        self.task_output_limit = os.getenv('PROFILE_TASKS_TASK_OUTPUT_LIMIT', 20)
+        
+        self.sort_order = os.getenv(
+            'PROFILE_TASKS_SORT_ORDER',
+            True
+        )
+        
+        self.task_output_limit = os.getenv(
+            'PROFILE_TASKS_TASK_OUTPUT_LIMIT',
+            20
+        )
 
         if self.sort_order == 'ascending':
             self.sort_order = False
@@ -394,8 +404,12 @@ class CallbackModule(CallbackBase):
             )
             
             if 'path' in result:
-                msg += u"\n{0:-<{1}}".format(result['path'] + u' ', self._display.columns)
+                msg += u"\n{0:-<{1}}".format(
+                    result['path'] + u' ',
+                    self._display.columns
+                )
             self._display.display(msg)
         
         # *** NEED THIS *** or you lose events?!
-        analytics.flush()
+        if analytics.write_key:
+            analytics.flush()
