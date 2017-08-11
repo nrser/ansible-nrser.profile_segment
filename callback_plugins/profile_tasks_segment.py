@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 # (C) 2016, Joel, http://github.com/jjshoe
 # (C) 2015, Tom Paine, <github@aioue.net>
 # (C) 2014, Jharrod LaFon, @JharrodLaFon
@@ -397,8 +398,13 @@ class CallbackModule(CallbackBase):
 
         # Print the timings
         for uuid, result in results:
+            name = result['name'].replace(u"\n", u'␤')
+            
+            if len(name) > 65:
+                name = name[:62] + u'...'
+            
             msg = u"{0:-<{2}}{1:->9}".format(
-                result['name'].replace("\n", '') + u' ',
+                name + u' ',
                 u' {0}'.format(datetime.timedelta(seconds=result['time'])),
                 self._display.columns - 9
             )
