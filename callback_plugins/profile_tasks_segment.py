@@ -31,6 +31,7 @@ import datetime
 import analytics
 import inspect
 import yaml
+import re
 
 from ansible.module_utils.six.moves import reduce
 from ansible.plugins.callback import CallbackBase
@@ -398,7 +399,7 @@ class CallbackModule(CallbackBase):
 
         # Print the timings
         for uuid, result in results:
-            name = result['name'].replace(u"\n", u'␤')
+            name = re.sub(r'\ +', ' ', result['name'].replace(u"\n", u'␤'))
             
             if len(name) > 65:
                 name = name[:62] + u'...'
