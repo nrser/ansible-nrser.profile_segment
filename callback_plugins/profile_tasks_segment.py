@@ -92,7 +92,7 @@ def tasktime():
 # Tracking
 # =====================================================================
 # 
-# I'm not sure why `ansible-profile` hommie declared these functions outside 
+# I'm not sure why `ansible-profile` hommie declared these functions outside
 # of CallbackModule, but I'll stick with it for now.
 # 
 
@@ -152,7 +152,8 @@ def track_last_task(self, track_task):
         # 'web_version': vars['web_version']
     }
     
-    properties.update(track_task.args['properties'])
+    if 'properties' in track_task.args:
+        properties.update(track_task.args['properties'])
     
     properties.update({
         'role': track_task._role.get_name(),
@@ -225,7 +226,7 @@ def track_end(self, track_task):
     
     track_block = self.track_blocks[event]
     
-    # `tn` is the time that the last task started, which would be the time 
+    # `tn` is the time that the last task started, which would be the time
     # the `task_end` task started, since we're getting called in the "ok"
     # return phase, so take that as the end time.
     # 
